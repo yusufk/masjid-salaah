@@ -1,39 +1,21 @@
-<style>
-.sw{max-width:420px;margin:0 auto;padding:1.2rem;font-family:'Segoe UI',sans-serif;background:#005d71;color:#fff;border-radius:8px}
-.sw h2{font-size:1.3rem;color:#84e8ff;font-weight:700;text-align:center;margin:0}
-.sw .sub{font-size:.8rem;color:#a0fa94;text-align:center;margin:.2rem 0 .75rem}
-.sw table{width:100%;border-collapse:collapse;border:2px solid #84e8ff}
-.sw th{background:#005d71;color:#fff;font-size:.9rem;padding:.6rem .5rem;border-bottom:2px solid #84e8ff}
-.sw th:first-child{text-align:left}
-.sw th:not(:first-child){text-align:center}
-.sw td{padding:.7rem .5rem;font-size:1.05rem;font-weight:600;border-bottom:1px solid rgba(132,232,255,.25);background:rgba(0,80,100,.5)}
-.sw td:first-child{color:#a0fa94;font-weight:700;font-size:1.1rem}
-.sw td:not(:first-child){text-align:center;color:#84e8ff}
-.sw tr.nx td{background:rgba(132,232,255,.12)}
-.sw tr.nx td:first-child{color:#fff}
-.sw .jm{margin-top:.75rem;padding:.5rem;background:rgba(0,80,100,.6);border:1px solid rgba(132,232,255,.3);border-radius:.4rem;font-size:.85rem;text-align:center;color:#84e8ff}
-.sw .jm strong{color:#a0fa94}
-.sw .ft{margin-top:.6rem;text-align:center;font-size:.7rem;color:rgba(255,255,255,.5)}
-</style>
-<div class="sw" id="sw">Loading salaah times...</div>
+<div id="mbl-salaah"></div>
 <script>
 fetch('https://masjid-salaah-api.yusufk.workers.dev/?id=greenside-rahmah')
 .then(r=>r.json()).then(res=>{
-const d=res.data,m=d.meta||{},now=new Date(),mins=now.getHours()*60+now.getMinutes();
+const d=res.data,now=new Date(),mins=now.getHours()*60+now.getMinutes();
 const toM=s=>{const[h,n]=s.split(':').map(Number);return h*60+n};
 const t=[d.fajrJamaah,d.dhuhrJamaah,d.asrJamaah,d.maghribJamaah,d.eshaJamaah];
 let nx=t.findIndex(x=>toM(x)>mins);if(nx<0)nx=0;
-document.getElementById('sw').innerHTML=`
-<h2>${m.city||'Greenside'}<br>${m.masjid||'Masjid ur Rahmah'}</h2>
-<div class="sub">${now.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</div>
-<table><thead><tr><th></th><th>Adhān</th><th>Salāh</th></tr></thead><tbody>
-<tr class="${nx==0?'nx':''}"><td>Fajr</td><td>${d.fajrAthan}</td><td>${d.fajrJamaah}</td></tr>
-<tr class="${nx==1?'nx':''}"><td><u>Z</u>uhr</td><td>${d.dhuhrAthan}</td><td>${d.dhuhrJamaah}</td></tr>
-<tr class="${nx==2?'nx':''}"><td>'A<u>s</u>r</td><td>${d.asrAthan}</td><td>${d.asrJamaah}</td></tr>
-<tr class="${nx==3?'nx':''}"><td>Maghrib</td><td>${d.maghribAthan}</td><td>${d.maghribJamaah}</td></tr>
-<tr class="${nx==4?'nx':''}"><td>'Ishā</td><td>${d.eshaAthan}</td><td>${d.eshaJamaah}</td></tr>
-</tbody></table>
-${d.jumuahTime1?`<div class="jm">Jumu'ah: <strong>${d.jumuahTime1}</strong>${d.jumuahTime3?' & <strong>'+d.jumuahTime3+'</strong>':''}</div>`:''}
-<div class="ft">Sunrise ${d.sunrise} · Sunset ${d.sunset}</div>`;
-}).catch(()=>{document.getElementById('sw').innerHTML='<p style="color:#ef5350;text-align:center">Unable to load times</p>'});
+const row=(i,name,ath,jam)=>`<tr style="${i===nx?'background:rgba(132,232,255,.15)':''}"><td style="color:#a0fa94;font-weight:700;padding:8px 10px">${name}</td><td style="text-align:center;color:#84e8ff;padding:8px 10px">${ath}</td><td style="text-align:center;color:#84e8ff;font-weight:700;padding:8px 10px">${jam}</td></tr>`;
+document.getElementById('mbl-salaah').innerHTML=`
+<table style="width:100%;border-collapse:collapse;background:#005d71;border-radius:6px;overflow:hidden;font-family:sans-serif;font-size:15px">
+<thead><tr style="border-bottom:2px solid #84e8ff"><th style="padding:8px 10px;text-align:left;color:#fff;font-size:12px"></th><th style="text-align:center;color:#fff;font-size:12px;padding:8px">Adhān</th><th style="text-align:center;color:#fff;font-size:12px;padding:8px">Jamaat</th></tr></thead>
+<tbody>
+${row(0,'Fajr',d.fajrAthan,d.fajrJamaah)}
+${row(1,'Zuhr',d.dhuhrAthan,d.dhuhrJamaah)}
+${row(2,"'Asr",d.asrAthan,d.asrJamaah)}
+${row(3,'Maghrib',d.maghribAthan,d.maghribJamaah)}
+${row(4,"'Ishā",d.eshaAthan,d.eshaJamaah)}
+</tbody></table>`;
+}).catch(()=>{document.getElementById('mbl-salaah').innerHTML='<p style="color:red;text-align:center">Unable to load times</p>'});
 </script>
