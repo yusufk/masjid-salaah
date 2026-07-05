@@ -6,7 +6,7 @@ export default {
     // Only allow known origins
     const origin = request.headers.get('Origin') || ''
     const referer = request.headers.get('Referer') || ''
-    const allowed = ['masjidurrahmah.org.za', 'yusuf.kaka.co.za', 'yusufk.github.io', 'localhost']
+    const allowed = ['masjidurrahmah.org.za', 'yusuf.kaka.co.za', 'yusufk.github.io']
     const isAllowed = allowed.some(d => origin.includes(d) || referer.includes(d)) || !origin
 
     if (!isAllowed) {
