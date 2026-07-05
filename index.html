@@ -12,28 +12,5 @@ body { font-family: sans-serif; background: #003d4d; min-height: 100vh; display:
 <body>
 <div id="mbl-salaah" style="width:100%;max-width:420px">Loading...</div>
 <script>
-fetch('https://masjid-salaah-api.yusufk.workers.dev/?id=greenside-rahmah')
-.then(r=>r.json()).then(res=>{
-const d=res.data,now=new Date(),mins=now.getHours()*60+now.getMinutes();
-const toM=s=>{const[h,n]=s.split(':').map(Number);return h*60+n};
-const t=[d.fajrJamaah,d.dhuhrJamaah,d.asrJamaah,d.maghribJamaah,d.eshaJamaah];
-let nx=t.findIndex(x=>toM(x)>mins);if(nx<0)nx=0;
-const b='border:1px solid rgba(132,232,255,.3);';
-const row=(i,name,ath,jam)=>`<tr style="${i===nx?'background:rgba(132,232,255,.15)':''}"><td style="color:#a0fa94;font-weight:700;padding:8px 10px;background:rgba(0,80,100,.5);${b}">${name}</td><td style="text-align:center;color:#84e8ff;padding:8px 10px;background:rgba(0,80,100,.5);${b}">${ath}</td><td style="text-align:center;color:#84e8ff;font-weight:700;padding:8px 10px;background:rgba(0,80,100,.5);${b}">${jam}</td></tr>`;
-document.getElementById('mbl-salaah').innerHTML=`
-<table style="width:100%;border-collapse:collapse;background:#005d71;border-radius:6px;overflow:hidden;font-family:sans-serif;font-size:15px">
-<thead><tr><td style="padding:8px 10px;background:#005d71;color:#fff;font-size:12px;font-weight:700;${b}"></td><td style="text-align:center;background:#005d71;color:#fff;font-size:12px;font-weight:700;padding:8px;${b}">Adhān</td><td style="text-align:center;background:#005d71;color:#fff;font-size:12px;font-weight:700;padding:8px;${b}">Jamaat</td></tr></thead>
-<tbody>
-${row(0,'Fajr',d.fajrAthan,d.fajrJamaah)}
-${row(1,'Zuhr',d.dhuhrAthan,d.dhuhrJamaah)}
-${row(2,"'Asr",d.asrAthan,d.asrJamaah)}
-${row(3,'Maghrib',d.maghribAthan,d.maghribJamaah)}
-${row(4,"'Ishā",d.eshaAthan,d.eshaJamaah)}
-${d.jumuahTime1?`<tr><td style="color:#a0fa94;font-weight:700;padding:8px 10px;background:#005d71;border:2px solid #84e8ff;border-top:3px solid #84e8ff">Jumu'ah</td><td style="text-align:center;color:#84e8ff;font-weight:700;padding:8px 10px;background:#005d71;border:2px solid #84e8ff;border-top:3px solid #84e8ff">${d.jumuahTime1}</td><td style="text-align:center;color:#84e8ff;font-weight:700;padding:8px 10px;background:#005d71;border:2px solid #84e8ff;border-top:3px solid #84e8ff">${d.jumuahTime3||''}</td></tr>`:''}
-</tbody>
-<tfoot><tr><td colspan="3" style="padding:8px 10px;font-size:12px;color:rgba(255,255,255,.7);text-align:center;background:#005d71;${b}">Sunrise <strong style="color:#84e8ff">${d.sunrise}</strong> · Sunset <strong style="color:#84e8ff">${d.sunset}</strong></td></tr></tfoot>
-</table>`;
-}).catch(()=>{document.getElementById('mbl-salaah').innerHTML='<p style="color:red;text-align:center">Unable to load times</p>'});
-</script>
 </body>
 </html>
