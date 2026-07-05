@@ -16,6 +16,10 @@ ${row(1,'Zuhr',d.dhuhrAthan,d.dhuhrJamaah)}
 ${row(2,"'Asr",d.asrAthan,d.asrJamaah)}
 ${row(3,'Maghrib',d.maghribAthan,d.maghribJamaah)}
 ${row(4,"'Ishā",d.eshaAthan,d.eshaJamaah)}
-</tbody></table>`;
+</tbody>
+<tfoot>
+<tr style="border-top:2px solid #84e8ff"><td colspan="3" style="padding:8px 10px;font-size:12px;color:rgba(255,255,255,.7);text-align:center">Sunrise <strong style="color:#84e8ff">${d.sunrise}</strong> · Sunset <strong style="color:#84e8ff">${d.sunset}</strong>${d.jumuahTime1?` · Jumu'ah <strong style="color:#a0fa94">${d.jumuahTime1}</strong>${d.jumuahTime3?' & <strong style="color:#a0fa94">'+d.jumuahTime3+'</strong>':''}`:''}</td></tr>
+</tfoot>
+</table>`;
 }).catch(()=>{document.getElementById('mbl-salaah').innerHTML='<p style="color:red;text-align:center">Unable to load times</p>'});
 </script>
