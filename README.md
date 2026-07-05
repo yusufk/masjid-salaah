@@ -1,0 +1,1 @@
+# Masjid Salaah Times Widget\n\nCustom front-end for masjidurrahmah.org.za salaah times.\nFetches from masjidboardlive API, renders a clean responsive widget.\n\n## API\n`https://masjidboardlive.com/boards/api/board.php?greenside-rahmah`\n\n## Deploy\nCloudflare Pages or embed directly in WordPress.
